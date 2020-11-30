@@ -10,12 +10,12 @@ import Icon from "./icon";
 const RadioForm = ({ question, description, reponses, next }) => {
   const [selected, setSelected] = useState();
 
-  const onSelection = (dest) => (e) => {
+  const onSelection = (dest) => {
     console.log(dest + " is selected.");
     setSelected(dest);
   };
 
-  const onNext = (e) => {
+  const onNext = () => {
     if (selected) next();
   };
 
@@ -33,14 +33,18 @@ const RadioForm = ({ question, description, reponses, next }) => {
             : "icons/radio.svg";
 
           return (
-            <div className={css.choice} onClick={onSelection(dest)} key={index}>
+            <div
+              className={css.choice}
+              onClick={() => onSelection(dest)}
+              key={index}
+            >
               <Icon path={iconName} />
               <div>{nom}</div>
             </div>
           );
         })}
       </div>
-      <Button text="Suivant" onClick={onNext} />
+      <Button text="Suivant" onClick={() => onNext()} />
     </div>
   );
 };

@@ -16,6 +16,7 @@ Tool to generate a decision tree application (where user can traverse a decision
 - [ ] Sum-up and task list email report
 
 # How to use an xmind file
+
 Unzip the xmind file !
 
 # Start React-App
@@ -24,6 +25,6 @@ Please install yarn (v. 1.22.10).
 
 Then do the following to start the web-app:
 
-- `yarn` -> to install dependecies of the web app locally
+- `yarn` -> to install dependencies of the web app locally
 - `yarn start` -> to start the development server
 - Go to http://localhost:3000/
