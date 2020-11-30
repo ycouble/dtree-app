@@ -1,7 +1,9 @@
 # Decision tree web app generator
+
 Tool to generate a decision tree application (where user can traverse a decision tree and gather actions to perform at each node, enter results of analysis to find the next step to do...)
 
 # Features (in no particular order)
+
 - [x] Import from json
 - [x] First data model (json)
 - [ ] Implementation of the different types of questions (radio, select, numerical, etc.)
@@ -15,3 +17,13 @@ Tool to generate a decision tree application (where user can traverse a decision
 
 # How to use an xmind file
 Unzip the xmind file !
+
+# Start React-App
+
+Please install yarn (v. 1.22.10).
+
+Then do the following to start the web-app:
+
+- `yarn` -> to install dependecies of the web app locally
+- `yarn start` -> to start the development server
+- Go to http://localhost:3000/
