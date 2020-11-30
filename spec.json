@@ -19,17 +19,18 @@
       "entrepot": {
         "question": "Depuis combien de temps l'article contenant la salmonelle était-il entreposé ?",
         "description": "si ce n'est pas un article, donnez la durée depuis le dernier controle de l'objet",
-        "type": "duration",
-        "reponses": {
-          "x<1h": {"dest": "court"},
-          "1h<=x<1j": {"dest": "moyen"},
-          "1j<=x": {"dest": "long"}
-        },
+        "type": "number",
+        "unit": "heure",
+        "reponses": [
+          {"between": [0, 1], "dest": "court"},
+          {"between": [1, 24], "dest": "moyen"},
+          {"between": [24, -1], "dest": "long"}
+        ],
         "branches": {
           "court": {
             "question": "Résultat analyse X ?",
             "description": "en mg/cm3",
-            "type": "decimal",
+            "type": "number",
             "reponses": {
               "x<30.5": {"dest": "acceptable"},
               "30.5<=x": {"dest": "alarmant"}
@@ -52,7 +53,7 @@
           "moyen": {
             "question": "Résultat analyse X ?",
             "description": "en mg/cm3",
-            "type": "decimal",
+            "type": "number",
             "reponses": {
               "x<15.5": {"dest": "acceptable"},
               "15.5<=x": {"dest": "alarmant"}
@@ -82,7 +83,7 @@
         "chaine": {
           "question": "Résultat analyse X ?",
           "description": "en mg/cm3",
-          "type": "decimal",
+          "type": "number",
           "reponses": {
             "x<30.5": {"dest": "acceptable"},
             "30.5<=x": {"dest": "alarmant"}
