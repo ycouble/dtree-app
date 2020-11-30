@@ -16,7 +16,7 @@ const RadioForm = ({ question, description, reponses, next }) => {
   };
 
   const onNext = (e) => {
-    next();
+    if (selected) next();
   };
 
   return (

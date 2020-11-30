@@ -79,45 +79,45 @@
               "actions": ["save", "send"]
             }
           }
+        }
+      },
+      "chaine": {
+        "question": "Résultat analyse X ?",
+        "description": "en mg/cm3",
+        "type": "number",
+        "reponses": {
+          "x<30.5": {"dest": "acceptable"},
+          "30.5<=x": {"dest": "alarmant"}
         },
-        "chaine": {
-          "question": "Résultat analyse X ?",
-          "description": "en mg/cm3",
-          "type": "number",
-          "reponses": {
-            "x<30.5": {"dest": "acceptable"},
-            "30.5<=x": {"dest": "alarmant"}
+        "branches": {
+          "acceptable": {
+            "question": null,
+            "description": "pas d'inquiétude, tout va bien",
+            "type": "end",
+            "actions": ["save", "send"]
           },
-          "branches": {
-            "acceptable": {
-              "question": null,
-              "description": "pas d'inquiétude, tout va bien",
-              "type": "end",
-              "actions": ["save", "send"]
-            },
-            "alarmant": {
-              "question": null,
-              "description": "c'est le moment d'annoncer à ton boss qu'il y a une salmonelle dans le potage",
-              "type": "end",
-              "actions": ["save", "send"]
-            }
-          },
+          "alarmant": {
+            "question": null,
+            "description": "c'est le moment d'annoncer à ton boss qu'il y a une salmonelle dans le potage",
+            "type": "end",
+            "actions": ["save", "send"]
+          }
+        }
+      },
+      "produit": {
+        "question": "Avez-vous controlé la chaine de production et les entrepôts ?",
+        "description": "Généralement, une salmonelle n'est jamais seule",
+        "type": "boolean",
+        "reponses": {
+          "oui": {"dest": "produit"},
+          "non": {"dest": "produit", "tache": "verification prod et entrepots"}
+        },
+        "branches": {
           "produit": {
-            "question": "Avez-vous controlé la chaine de production et les entrepôts ?",
-            "description": "Généralement, une salmonelle n'est jamais seule",
-            "type": "boolean",
-            "reponses": {
-              "oui": {"dest": "produit"},
-              "non": {"dest": "produit", "tache": "verification prod et entrepots"}
-            },
-            "branches": {
-              "produit": {
-                "question": null,
-                "description": "Rappeler tous les produits !",
-                "type": "end",
-                "actions": ["save", "send"]
-              }
-            }
+            "question": null,
+            "description": "Rappeler tous les produits !",
+            "type": "end",
+            "actions": ["save", "send"]
           }
         }
       }
