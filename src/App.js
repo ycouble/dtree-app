@@ -3,13 +3,13 @@ import React, { useState } from "react";
 import spec from "./data/spec.json";
 import css from "./app.module.css";
 
-import RadioForm from "./components/radio-form";
+import BooleanChoice from "./components/boolean-choice";
 import NumberInput from "./components/number-input";
+import RadioForm from "./components/radio-form";
 
 function App() {
-  const [form, setForm] = useState(1);
+  const [form, setForm] = useState(0);
 
-  console.log(spec["localisation"]);
   const nextForm = () => {
     setForm(form + 1);
   };
@@ -23,6 +23,12 @@ function App() {
       {form === 1 && (
         <NumberInput
           {...spec["localisation"]["branches"]["entrepot"]}
+          next={nextForm}
+        />
+      )}
+      {form === 2 && (
+        <BooleanChoice
+          {...spec["localisation"]["branches"]["produit"]}
           next={nextForm}
         />
       )}

@@ -23,7 +23,7 @@ const NumberInput = ({ question, description, unit, reponses, next }) => {
       const result = reponses.filter((response) =>
         isBetween(response.between, inputValue)
       );
-      console.log(result);
+      console.log(result[0].dest);
       next();
     }
   };
