@@ -4,14 +4,19 @@ import "../services/capitalize";
 // import classnames from "classnames";
 import css from "./css/radio-form.module.css";
 
+import Button from "./button";
 import Icon from "./icon";
 
-const RadioForm = ({ question, description, reponses }) => {
+const RadioForm = ({ question, description, reponses, next }) => {
   const [selected, setSelected] = useState();
 
   const onSelection = (dest) => (e) => {
     console.log(dest + " is selected.");
     setSelected(dest);
+  };
+
+  const onNext = (e) => {
+    next();
   };
 
   return (
@@ -35,6 +40,7 @@ const RadioForm = ({ question, description, reponses }) => {
           );
         })}
       </div>
+      <Button text="Suivant" onClick={onNext} />
     </div>
   );
 };

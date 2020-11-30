@@ -5,12 +5,14 @@
   align-items: center;
 }
 
-.choice {
+.input {
   display: flex;
   align-items: center;
-  margin: 5px 0px;
 }
 
-.choice > div {
-  margin: 0px 5px;
+.input > input {
+  height: 30px;
+  width: 30px;
+  margin-right: 10px;
+  font-size: 1em;
 }
