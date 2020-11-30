@@ -3,20 +3,18 @@
     "question": "où ?",
     "description": "choississez l'option qui correspond le mieux à votre cas.",
     "type": "radio",
-    "reponses": {
-      "entrepot": {
+    "reponses": [
+      {
         "nom": "Dans un entrepot",
         "dest": "entrepot"
-      },
-      "chaine de fabrication": {
+      },{
         "nom": "Sur la chaine de fabrication",
         "dest": "chaine"
-      },
-      "produit fini": {
+      },{
         "nom": "Sur un produit fini",
         "dest": "produit"
       }
-    },
+    ],
     "branches": {
       "entrepot": {
         "question": "Depuis combien de temps l'article contenant la salmonelle était-il entreposé ?",

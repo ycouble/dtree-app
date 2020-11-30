@@ -1,0 +1,15 @@
+.form {
+  width: 80vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.choice {
+  display: flex;
+  align-items: center;
+  margin: 5px 0px;
+}
+
+.choice > div {
+  margin: 0px 5px;
+}
