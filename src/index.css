@@ -1,13 +1,36 @@
+:root {
+  --dark-color: #283149;
+  --light-color: #dbedf3;
+  --primary-color: #404b69;
+  --secondary-color: #00818a;
+
+  --dark-text-color: #283149;
+  --light-text-color: #dbedf3;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: "Montserrat", sans-serif; /* Trebuchet MS */
+  font-size: 16px;
+  line-height: 1.3;
+  color: var(--light-text-color);
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+h1 {
+  font-size: 1.8em;
+}
+
+h2 {
+  font-size: 1.4em;
+}
+
+img {
+  user-select: none;
 }
