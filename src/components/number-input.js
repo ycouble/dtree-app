@@ -17,7 +17,7 @@ const NumberInput = ({ question, description, unit, reponses, next }) => {
     setValue(event.target.value);
   };
 
-  const onNext = () => {
+  const onNext = (e) => {
     const inputValue = parseInt(value);
     if (!isNaN(inputValue) && inputValue >= 0) {
       const result = reponses.filter((response) =>
@@ -38,7 +38,7 @@ const NumberInput = ({ question, description, unit, reponses, next }) => {
         <input value={value} onChange={handleChange} />
         <div>{unit}</div>
       </div>
-      <Button text="Suivant" onClick={() => onNext()} />
+      <Button text="Suivant" onClick={onNext} />
     </div>
   );
 };

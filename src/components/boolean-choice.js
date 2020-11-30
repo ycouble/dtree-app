@@ -11,7 +11,7 @@ const BooleanChoice = ({ question, description, reponses, next }) => {
 
   const onSelection = (dest) => (e) => {};
 
-  const onNext = (choice) => {
+  const onNext = (choice) => (e) => {
     console.log(choice + " is selected.");
     next();
   };
@@ -22,8 +22,8 @@ const BooleanChoice = ({ question, description, reponses, next }) => {
         <h2>{question.capitalize()}</h2>
         <p>{description.capitalize()}</p>
       </div>
-      <Button text="Oui" onClick={() => onNext(true)} />
-      <Button text="Non" onClick={() => onNext(false)} />
+      <Button text="Oui" onClick={onNext(true)} />
+      <Button text="Non" onClick={onNext(false)} />
     </div>
   );
 };
