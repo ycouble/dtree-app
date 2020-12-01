@@ -7,16 +7,15 @@ import css from "./css/radio-form.module.css";
 import Button from "./button";
 import Icon from "./icon";
 
-const RadioForm = ({ question, description, reponses, next }) => {
+const RadioForm = ({ question, description, choices, next }) => {
   const [selected, setSelected] = useState();
 
-  const onSelection = (dest) => {
-    console.log(dest + " is selected.");
-    setSelected(dest);
+  const onSelection = (id) => {
+    setSelected(id);
   };
 
   const onNext = () => {
-    if (selected) next();
+    if (selected) next(selected);
   };
 
   return (
@@ -26,8 +25,8 @@ const RadioForm = ({ question, description, reponses, next }) => {
         <p>{description.capitalize()}</p>
       </div>
       <div>
-        {reponses.map(({ nom, dest }, index) => {
-          const isSelected = dest === selected;
+        {choices.map(({ labels, id }, index) => {
+          const isSelected = id === selected;
           const iconName = isSelected
             ? "icons/radio-selected.svg"
             : "icons/radio.svg";
@@ -35,11 +34,11 @@ const RadioForm = ({ question, description, reponses, next }) => {
           return (
             <div
               className={css.choice}
-              onClick={() => onSelection(dest)}
+              onClick={() => onSelection(id)}
               key={index}
             >
               <Icon path={iconName} />
-              <div>{nom}</div>
+              <div>{labels.toString()}</div>
             </div>
           );
         })}

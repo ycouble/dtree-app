@@ -18,9 +18,6 @@ class DTree:
     def __repr__(self):
         return f"DTree from {self.filename}"
 
-    def deep_print(self, children_nb=None):
-        self.root_node.deep_print(children_nb)
-
     @staticmethod
     def _extract_zip(input_zip):
         # TODO: Error managment, wrong file
@@ -38,6 +35,23 @@ class DTree:
             children = [DTree._populate_node(child) for child in data["children"]["attached"]]
         return Node(data.get("title"), description, data.get("labels"), children)
 
+    def get_node(self, node_id, node=None):
+        if node == None:
+            node = self.root_node
+        print(node_id, node.get_id())
+        if node_id == node.get_id():
+            return node
+        for child in node.children:
+            result = self.get_node(node_id, child)
+            if result is not None:
+                return result
+        return None
+
+    def print_raw_json(self):
+        print(json.dumps(self.raw_json_data, sort_keys=True, indent=4, ensure_ascii=False))
+
+    def deep_print(self, children_nb=None):
+        self.root_node.deep_print(children_nb)
 
 class Node:
     def __init__(self, title, description, labels, children):
@@ -48,6 +62,19 @@ class Node:
 
     def __repr__(self):
         return f"Title: {self.title}\nDescription: {repr(self.description)}\nLabels: {self.labels}\nChildren: {child.title for child in self.children}"
+
+    def get_id(self):
+        return id(self)
+
+    def get_content(self):
+        return {
+            'id': self.get_id(),
+            'question': self.title,
+            'description': self.description,
+            'choices': [
+                {'labels': child.labels, 'id': child.get_id()} for child in self.children
+            ]
+        }
 
     def deep_print(self, children_nb=None, tab=0):
         tabulation = "|    " * (tab - 1)

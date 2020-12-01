@@ -38,5 +38,6 @@ Then do the following to start the web-app:
 
 # Start Python Server
 
-- Create virtual env (ex: `mkvirtualenv dtree-app`)
-- Then `pip install -r requirements.txt`
+- `mkvirtualenv dtree-app` -> create a virtual env
+- `pip install -r requirements.txt` -> install python requirement
+- `python server/main.py` -> start the server
