@@ -18,11 +18,15 @@ const RadioForm = ({ question, description, choices, next }) => {
     if (selected) next(selected);
   };
 
+  const descriptions = description.split("\n");
+
   return (
     <div className={css.form}>
       <div>
         <h2>{question.capitalize()}</h2>
-        <p>{description.capitalize()}</p>
+        {descriptions.map((text, index) => {
+          return <p key={index}>{text.capitalize()}</p>;
+        })}
       </div>
       <div>
         {choices.map(({ labels, id }, index) => {
