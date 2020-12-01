@@ -2,6 +2,12 @@
 
 Tool to generate a decision tree application (where user can traverse a decision tree and gather actions to perform at each node, enter results of analysis to find the next step to do...)
 
+# Current XMIND Convention
+- Name of a node  : Title of the questionnaire page
+- Labels          : Previous question option item (text to be put on the radio/checkbox/etc. text). If several labels, then it corresponds to the combination of several options
+- Notes           : Text of the current question. Items listed in the text are meant to be added to the todo list and displayed as tasks
+- Parent-child    : Indicates that the children are the different valid answer options of the parent question.
+
 # Features (in no particular order)
 
 - [x] Import from json
