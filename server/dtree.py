@@ -38,7 +38,6 @@ class DTree:
     def get_node(self, node_id, node=None):
         if node == None:
             node = self.root_node
-        print(node_id, node.get_id())
         if node_id == node.get_id():
             return node
         for child in node.children:

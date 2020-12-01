@@ -43,7 +43,6 @@ export const fetcher = (method) => async (
           ? JSON.stringify(body)
           : undefined,
     };
-    console.log(reqOpts);
     const response = await fetch(url, reqOpts);
 
     if (response.ok && response.status === 204) return undefined;

@@ -25,7 +25,6 @@ def api_dtree_id():
         node = dtree.root_node
     
     if node is not None:
-        print(node.get_id(), node.title)
         return jsonify(node.get_content())
     else:
         return "<h1>404</h1><p>The resource could not be found.</p>", 404
@@ -34,5 +33,4 @@ def api_dtree_id():
 if __name__ == "__main__":
     dtree = DTree()
     dtree.deep_print()
-    print(dtree.root_node.get_id())
     app.run(host= "0.0.0.0", debug=True, port = 5000, threaded=True)
