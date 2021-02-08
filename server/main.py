@@ -2,7 +2,7 @@ import flask
 
 from flask import request, jsonify
 from flask_cors import CORS
-from dtree import DTree
+from dtree.dtree import DTree
 
 app = flask.Flask("DTree")
 app.config["DEBUG"] = True
@@ -17,20 +17,20 @@ def page_not_found(e):
 def api_dtree_id():
     query_parameters = request.args
 
-    node = None
+    content = None
     if 'id' in request.args:
-        node_id = int(query_parameters.get('id'))
-        node = dtree.get_node(node_id)
+        node_id = query_parameters.get('id')
+        content = dtree.get_node_content(node_id)
     else:
-        node = dtree.root_node
+        content = dtree.get_node_content()
     
-    if node is not None:
-        return jsonify(node.get_content())
+    if content is not None:
+        return jsonify(content)
     else:
         return "<h1>404</h1><p>The resource could not be found.</p>", 404
 
 
 if __name__ == "__main__":
     dtree = DTree()
-    dtree.deep_print()
+    # dtree.deep_print()
     app.run(host= "0.0.0.0", debug=True, port = 5000, threaded=True)

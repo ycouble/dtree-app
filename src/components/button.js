@@ -5,7 +5,13 @@ import css from "./css/button.module.css";
 const Button = ({ text, onClick }) => {
   return (
     <div className={css.button} onClick={onClick}>
-      <span className={css.text}>{text}</span>
+      {text.split("\n").map((i, key) => {
+        return (
+          <div key={key} className={css.text}>
+            {i}
+          </div>
+        );
+      })}
     </div>
   );
 };

@@ -17,3 +17,10 @@ class Link:
 
     def __repr__(self):
         return f"Id: {self.link_id}\nText: {self.text}\nFrom: {self.start_node.text}\To: {self.end_node.text}"
+
+    def get_content(self): # TODO: Improve compability between links and node
+        return {
+            'id': self.link_id,
+            'text': self.text,
+            'next_node_id': self.end_node.node_id # TODO: If node is type SKIP
+        }

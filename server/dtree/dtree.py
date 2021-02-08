@@ -5,8 +5,8 @@ import json
 
 from zipfile import ZipFile
 
-from node import Node
-from link import Link, LinkType
+from dtree.node import Node, NodeType
+from dtree.link import Link, LinkType
 
 XMIND_FILE = "salmonelles.xmind"
 
@@ -16,6 +16,7 @@ class DTree:
         self.filename = filename
         self.raw_json_data = DTree._extract_zip(self.filename)
         self.root_node = DTree._populate_node(self.raw_json_data[0]["rootTopic"])
+        self.root_node.type = NodeType.TITLE
         if "relationships" in self.raw_json_data[0]:
             self.create_relationships(self.raw_json_data[0]["relationships"])
 
@@ -67,6 +68,26 @@ class DTree:
             if result is not None:
                 return result
         return None
+
+    def get_node_content(self, node_id=None):
+        node = self.get_node(node_id) if node_id != None else self.root_node
+        if node == None:
+            return None #TODO error management
+        children_type = node.get_children_type()
+        if children_type == None:
+            return None #TODO error management
+        title = node.text if node.type == NodeType.TITLE else ""
+        question = node.text if node.type == NodeType.QUESTION else ""
+        if len(node.children) == 1 and children_type == NodeType.QUESTION:
+            question = node.children[0].text
+        choices = node.get_following_choice()
+        return {
+            'id': node_id,
+            'title': title,
+            'question': question,
+            'choices': choices
+        }
+
 
     def print_raw_json(self):
         print(json.dumps(self.raw_json_data, sort_keys=True, indent=4, ensure_ascii=False))

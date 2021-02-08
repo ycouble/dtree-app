@@ -1,13 +1,14 @@
 .button {
-  width: 60vw;
-  height: 60px;
+  max-width: 80vw;
   background-color: var(--secondary-color);
   cursor: pointer;
 
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
+  flex-direction: column;
   margin: 30px 0px;
+  padding: 20px;
   border-radius: 20px;
 }
 

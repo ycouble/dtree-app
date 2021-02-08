@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import spec from "./data/spec.json";
 import css from "./app.module.css";
 
-import BooleanChoice from "./components/boolean-choice";
+import Button from "./components/button";
 import NumberInput from "./components/number-input";
 import RadioForm from "./components/radio-form";
 
@@ -26,12 +26,28 @@ function App() {
     getData();
   }, [nodeId]);
 
+  console.log(form);
+
   return (
     <div className={css.app}>
       <header className={css.header}>
         <h1>Decision Tree Webapp</h1>
       </header>
-      {form && <RadioForm {...form} next={setId} />}
+      {form && (
+        <div>
+          <h2>{form.title}</h2>
+          <p>{form.question}</p>
+          {form.choices.map(({ id, text, next_node_id }) => {
+            return (
+              <Button
+                key={id}
+                text={text}
+                onClick={() => setId(next_node_id)}
+              />
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
