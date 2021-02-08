@@ -80,7 +80,11 @@ class DTree:
         question = node.text if node.type == NodeType.QUESTION else ""
         if len(node.children) == 1 and children_type == NodeType.QUESTION:
             question = node.children[0].text
-        choices = node.get_following_choice()
+        try:
+            choices = node.get_following_choice()
+        except RuntimeError as err:
+            print(err.args)
+            choices = []
         return {
             'id': node_id,
             'title': title,

@@ -41,17 +41,19 @@ class Node:
 
     def get_children_type(self):
         types = [child.type for child in self.children]
+        if len(types) == 0:
+            return True 
         if len(set(types)) <= 1: # Checking type are the same
             return types[0]
         else:
-            return None #TODO : Error management
+            raise RuntimeError(f"Children type are different - {self.node_id}")
 
     def get_links_type(self):
         types = [link.type for link in self.links]
         if len(set(types)) <= 1: # Checking type are the same
             return self.links[0].type
         else:
-            return None #TODO : Error management
+            raise RuntimeError(f"Links type are different - {self.node_id}")
 
     def get_next_node(self):
         if len(self.children) == 1:
@@ -59,16 +61,14 @@ class Node:
                 return self.children[0].get_next_node()
             else:
                 return self.children[0].node_id
-        return None #TODO : Error management
+        return self.node_id
 
     def get_content(self):
-        if len(self.children) == 1:
-            return {
-                'id': self.node_id,
-                'text': self.text,
-                'next_node_id': self.get_next_node()
-            }
-        return None #TODO : Error management
+        return {
+            'id': self.node_id,
+            'text': self.text,
+            'next_node_id': self.get_next_node()
+        }
 
     def get_following_choice(self):
         if len(self.links) == 0: # If links ignore children node
@@ -88,7 +88,7 @@ class Node:
         if tab != 0:
             tabulation += "|---"
         content = f"{self.type}: {self.text[0:30]}"
-        # content = f"{content} - {self.node_id}"
+        content = f"{content} - {self.node_id}"
         if self.links:
             content += f" -> {[(link.type, link.end_node.node_id) for link in self.links]}"
         print(f"{tabulation}{content}")
