@@ -31,7 +31,7 @@ class Node:
         node_type = {
             '#FDD834': NodeType.TITLE,
             '#8EDDF9': NodeType.QUESTION,
-            '#FF6F00': NodeType.QUESTION # SKIP ? 
+            '#FF6F00': NodeType.SKIP # SKIP ? 
         }.get(style["svg:fill"], NodeType.TEXT)
         if self.text == "(*) ETAPE 4 : GESTION DES LOTS SUSPECTS": #TODO : Change color on xmind.
             node_type = NodeType.TITLE
