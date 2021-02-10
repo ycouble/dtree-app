@@ -1,4 +1,4 @@
-import { get } from "./fetcher";
+import { get, post } from "./fetcher";
 import { withConfiguration, getConfig } from "./config";
 
 const api = "dtree-api";
@@ -39,5 +39,12 @@ export const logout = async (body) => {
   return withConfiguration(async (config) => {
     const endpoint = `${config[api]}/api/user/logout`;
     return get(endpoint, body, true);
+  });
+};
+
+export const upload = async (body) => {
+  return withConfiguration(async (config) => {
+    const endpoint = `${config[api]}/api/user/upload`;
+    return post(endpoint, body, true);
   });
 };

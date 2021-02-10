@@ -12,9 +12,9 @@ export const get = async (url, body, withCredentials = false) => {
   }
 };
 
-export const post = async (url, body) => {
+export const post = async (url, body, withCredentials = false) => {
   try {
-    const response = await axios.post(url, body);
+    const response = await axios.post(url, body, { withCredentials });
     return response.data;
   } catch (error) {
     console.log("error", error);
