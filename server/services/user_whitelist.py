@@ -1,0 +1,1 @@
+USER_WHITELIST = ["timothee.couble@epitech.eu", "tc72@hw.ac.uk"]

@@ -1,4 +1,7 @@
 {
-    "development": "http://localhost:5000"
+    "development": {
+      "dtree-front": "http://localhost:3000",
+      "dtree-api": "http://localhost:5000"
+    } 
   }
   

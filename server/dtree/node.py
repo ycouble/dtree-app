@@ -4,18 +4,21 @@
 from enum import Enum
 from dtree.link import LinkType
 
+
 class NodeType(Enum):
     TITLE = 1
     TEXT = 2
     QUESTION = 3
     SKIP = 4
 
+
 class Node:
     def __init__(self, node_id, text, children, style):
         self.node_id = node_id
         self.text = text
         self.children = children
-        self.type = self.set_type(style.get('properties')) if style else NodeType.TEXT
+        self.type = self.set_type(
+            style.get('properties')) if style else NodeType.TEXT
         self.links = []
         # if node_id == "7c4d8d46-be35-4e79-ba91-1d27830a791a":
         #     import pdb; pdb.set_trace()
@@ -31,26 +34,27 @@ class Node:
         node_type = {
             '#FDD834': NodeType.TITLE,
             '#8EDDF9': NodeType.QUESTION,
-            '#FF6F00': NodeType.SKIP # SKIP ? 
+            '#FF6F00': NodeType.SKIP  # SKIP ?
         }.get(style["svg:fill"], NodeType.TEXT)
-        if self.text == "(*) ETAPE 4 : GESTION DES LOTS SUSPECTS": #TODO : Change color on xmind.
+        # TODO : Change color on xmind.
+        if self.text == "(*) ETAPE 4 : GESTION DES LOTS SUSPECTS":
             node_type = NodeType.TITLE
         # if node_type == NodeType.SKIPand style.get('fo:color') != '#ADADAD':
-        #     node_type = NodeType.TEXT 
+        #     node_type = NodeType.TEXT
         return node_type
 
     def get_children_type(self):
         types = [child.type for child in self.children]
         if len(types) == 0:
-            return True 
-        if len(set(types)) <= 1: # Checking type are the same
+            return True
+        if len(set(types)) <= 1:  # Checking type are the same
             return types[0]
         else:
             raise RuntimeError(f"Children type are different - {self.node_id}")
 
     def get_links_type(self):
         types = [link.type for link in self.links]
-        if len(set(types)) <= 1: # Checking type are the same
+        if len(set(types)) <= 1:  # Checking type are the same
             return self.links[0].type
         else:
             raise RuntimeError(f"Links type are different - {self.node_id}")
@@ -71,7 +75,7 @@ class Node:
         }
 
     def get_following_choice(self):
-        if len(self.links) == 0: # If links ignore children node
+        if len(self.links) == 0:  # If links ignore children node
             if len(self.children) > 1 or self.get_children_type() == NodeType.TEXT:
                 return [child.get_content() for child in self.children]
             elif len(self.children) == 1:
@@ -81,7 +85,7 @@ class Node:
                 return [link.get_content() for link in self.links]
             elif len(self.links) == 1 and self.get_links_type() == LinkType.REDIRECT:
                 return [self.links[0].end_node.get_content()]
-        return None #TODO: Error management (can be end)
+        return None  # TODO: Error management (can be end)
 
     def deep_print(self, children_nb=None, tab=0):
         tabulation = "|    " * (tab - 1)
@@ -94,6 +98,5 @@ class Node:
         print(f"{tabulation}{content}")
         if children_nb != 0:
             for child in self.children:
-                child.deep_print(children_nb - 1 if children_nb is not None else None, tab + 1)
-
-
+                child.deep_print(
+                    children_nb - 1 if children_nb is not None else None, tab + 1)

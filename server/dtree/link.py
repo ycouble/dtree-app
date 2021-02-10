@@ -3,9 +3,11 @@
 
 from enum import Enum
 
+
 class LinkType(Enum):
     CHOICE = 5
     REDIRECT = 6
+
 
 class Link:
     def __init__(self, link_id, text, start_node, end_node):
@@ -18,9 +20,9 @@ class Link:
     def __repr__(self):
         return f"Id: {self.link_id}\nText: {self.text}\nFrom: {self.start_node.text}\To: {self.end_node.text}"
 
-    def get_content(self): # TODO: Improve compability between links and node
+    def get_content(self):  # TODO: Improve compability between links and node
         return {
             'id': self.link_id,
             'text': self.text,
-            'next_node_id': self.end_node.node_id # TODO: If node is type SKIP
+            'next_node_id': self.end_node.node_id  # TODO: If node is type SKIP
         }
