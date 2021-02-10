@@ -1,4 +1,3 @@
-import os
 import configparser
 
 config = configparser.ConfigParser()
@@ -6,7 +5,6 @@ config.read('.credentials.ini')
 
 # Application port
 PORT = 5000
-
 DEBUG = True
 
 # Application (client) ID of app registration
