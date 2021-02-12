@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Button } from "../components";
+import { Button, NodeDescription } from "../components";
 import css from "./css/home-page.module.css";
 
 import { getNode } from "../services/api";
@@ -22,7 +22,9 @@ const HomePage = () => {
     getData();
   }, [nodeId]);
 
+  const length = form?.choices.length;
   console.log(form);
+  console.log(length);
 
   return (
     <div className={css.page}>
@@ -30,15 +32,28 @@ const HomePage = () => {
         <div>
           <h2>{form.title}</h2>
           <p>{form.question}</p>
-          {form.choices.map(({ id, text, next_node_id }) => {
-            return (
-              <Button
-                key={id}
-                text={text}
-                onClick={() => setId(next_node_id)}
-              />
-            );
-          })}
+          {length === 1 ? (
+            <div>
+              <NodeDescription text={form.choices[0].text} />
+              <div className={css.buttonSet}>
+                <Button text={"Télécharger le document"} />
+                <Button
+                  text={"Suivant"}
+                  onClick={() => setId(form.choices[0].next_node_id)}
+                />
+              </div>
+            </div>
+          ) : (
+            form.choices.map(({ id, text, next_node_id }) => {
+              return (
+                <Button
+                  key={id}
+                  text={text}
+                  onClick={() => setId(next_node_id)}
+                />
+              );
+            })
+          )}
         </div>
       )}
     </div>
