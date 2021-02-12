@@ -23,8 +23,6 @@ const HomePage = () => {
   }, [nodeId]);
 
   const length = form?.choices.length;
-  console.log(form);
-  console.log(length);
 
   return (
     <div className={css.page}>
