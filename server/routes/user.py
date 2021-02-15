@@ -4,7 +4,6 @@ from flask import Blueprint, request, jsonify, session
 from flask_cors import cross_origin
 
 from services import microsoft_auth as ms_auth
-from services import file_transfer
 
 user_api = Blueprint('user', __name__)
 
@@ -67,6 +66,7 @@ def authorized():
 @user_api.route("/logout", methods=['GET'])
 @cross_origin(supports_credentials=True)
 def logout():
+    # TODO: Handle logout without redirect and set API on valraiso account
     query_parameters = request.args
 
     if 'redirect_url' in request.args:
@@ -80,25 +80,6 @@ def logout():
         return jsonify({"logout_uri": logout_uri}), 200
     else:
         return "Bad request", 400
-
-
-@user_api.route("/upload", methods=['POST'])
-@cross_origin(supports_credentials=True)
-def upload_file():
-    if not ms_auth.is_authorised_user(session.get("user")):
-        return "Forbidden", 403
-    if 'file' not in request.files:
-        return "No file - bad request", 400
-    xmind_file = request.files['file']
-    if xmind_file.filename == '':
-        return "No selected file - bad request", 400
-    error = file_transfer.save_file(xmind_file)
-    if error:
-        return "Bad request", 400
-    return "Ok", 200
-
-
-
 
 # @user_api.route("/graphcall")
 # def graphcall():

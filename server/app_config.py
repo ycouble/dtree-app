@@ -29,3 +29,7 @@ CORS_HEADERS = 'Content-Type'
 MAX_CONTENT_LENGTH = 32 * 1024 * 1024
 UPLOAD_FOLDER = "data"
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'json', 'xml', 'xmind'}
+
+# Database 
+MONGO_DBNAME = "dtree_salmonelles"
+MONGO_URI = f"mongodb://localhost:27017/{MONGO_DBNAME}"

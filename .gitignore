@@ -12,6 +12,7 @@ node_modules/
 /build
 __pycache__/
 flask_session/
+data/
 
 # misc
 .DS_Store

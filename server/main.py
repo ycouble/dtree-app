@@ -1,29 +1,38 @@
 import app_config
 
-from flask import Flask
-from flask_cors import CORS
-from flask_session import Session
-# from werkzeug.middleware.proxy_fix import ProxyFix
-
-from routes import dtree, user
-
-app = Flask("DTree")
-app.config.from_object(app_config)
-Session(app)
-CORS(app)
-
-app.register_blueprint(dtree.dtree_api, url_prefix='/api/dtree')
-app.register_blueprint(user.user_api, url_prefix='/api/user')
-
-# app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
-
-
-@app.errorhandler(404)
-def not_found(e):
-    return "Route forbidden", 403
+from routes import dtree, user, user_dtree, error
+from services.create_app import create_app
 
 
 # https://blog.miguelgrinberg.com/post/how-to-deploy-a-react--flask-project
 
+#TODO: Logger
+
 if __name__ == "__main__":
+    app = create_app(app_config)
+
+    app.register_blueprint(error.error_api)
+    app.register_blueprint(dtree.dtree_api, url_prefix='/api/dtree')
+    app.register_blueprint(user.user_api, url_prefix='/api/user')
+    app.register_blueprint(user_dtree.user_dtree_api, url_prefix='/api/user/dtree')
+
     app.run(port=app_config.PORT, debug=app_config.DEBUG, threaded=True)
+
+
+# API Description
+
+# GET /api/dtree/node -> Get default version & root node
+# GET /api/dtree/node/<:id> -> Get default version & specific node
+# GET /api/dtree/<:id>/node -> Get specific version & root node 
+# GET /api/dtree/<:id>/node/<:id> -> Get specific version & specific node
+# GET /api/dtree/version -> Get default document version
+
+# GET /api/user/login -> Redirect user to oauth page
+# GET /api/user/connected -> Test if user is connected
+# GET /api/user/redirect -> Store token in session
+# GET /api/user/logout -> Logout user from session
+
+# POST /api/user/dtree -> upload new file
+# POST /api/user/dtree/<:id>/default -> Set default dtree
+# GET /api/user/dtree -> get list off existing app
+# DELETE /api/user/dtree/<:id> -> delete old version

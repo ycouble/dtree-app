@@ -5,3 +5,5 @@ flask-session~=0.3.2
 requests>=2,<3
 msal>=1.7,<2
 pymongo>=3,<4
+flask-pymongo>=2,<3
+schema>=0,<1

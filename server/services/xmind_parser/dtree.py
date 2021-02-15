@@ -9,14 +9,16 @@ from services.xmind_parser.node import Node
 from services.xmind_parser.node_type import NodeType
 from services.exceptions import DTreeValidationError, DTreeProgrammingError
 
-XMIND_FILE = "data/example_a_verifier.xmind"
+TEST_DIR_NAME = "data/"
+XMIND_TEST_FILE = "example_a_verifier.xmind"
 
 
 class DTree:
-    def __init__(self, filename=XMIND_FILE, from_memory=None):
+    def __init__(self, filename=XMIND_TEST_FILE, dir_name=TEST_DIR_NAME, from_memory=None):
         self.filename = filename
-        input_zip = from_memory if from_memory else DTree.__extract_zip_from_file(filename)
-        self.raw_json_data = DTree.__extract_zip(input_zip)
+        self.dir_name = dir_name
+        self.input_zip = from_memory if from_memory else DTree.__extract_zip_from_file(dir_name + filename)
+        self.raw_json_data = DTree.__extract_zip(self.input_zip)
         self.nodes = []
         # NOTE: Doesn't handle multiple rootTopic
         self.__populate_node(self.raw_json_data[0]["rootTopic"])
@@ -28,7 +30,7 @@ class DTree:
         nodes = ""
         for i in range(len(self.nodes)):
             nodes += f"{self.nodes[i]}\n\n"
-        return f"DTree from {self.filename}\n\n{nodes}"
+        return f"DTree from {self.dir_name}{self.filename}\n\n{nodes}"
 
     @staticmethod
     def __extract_zip_from_file(filename):
@@ -47,8 +49,9 @@ class DTree:
             node = Node(node_id=data["id"],
                         title=data["title"],
                         description=data.get("notes", {}),
-                        href=data.get("href", ""),
                         style=data.get("style", {}))
+            if "href" in data:
+                node.set_href(data["href"])
         except KeyError as err:
             raise DTreeProgrammingError(f"Can't initialize node ({err})", f"Id: {data.get('id')}")
 
@@ -120,13 +123,14 @@ class DTree:
                 return self.nodes[i]
         raise DTreeProgrammingError(f"Can't find a root node (with {NodeType.APP_NAME})")
 
-    def dump():
+    def get_content(self):
         nodes = []
         for i in range(len(self.nodes)):
-            nodes.append(self.nodes[i].dump())
+            nodes.append(self.nodes[i].get_content())
         return {
-            "filename": self.filename,
-            "node_len": len(self.nodes),
+            "display_name": self.filename,
+            "folder_name": self.dir_name,
+            "node_length": len(self.nodes),
             "nodes": nodes
         }
         

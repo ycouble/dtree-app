@@ -2,13 +2,12 @@ from services.exceptions import DTreeValidationError
 from services.xmind_parser.node_type import NodeType
 
 class Node:
-    def __init__(self, node_id, title, description={}, href="", style={}, node_type=None):
+    def __init__(self, node_id, title, description={}, style={}, node_type=None):
         self.id = node_id
         self.title = title
         self.description = Node.__format_description(description.get('ops', {}).get('ops', []))
-        # TODO: Format href
-        self.href = href
-        self.type = node_type if node_type else Node.__set_type(style.get('properties', {}), bool(href))
+        self.type = node_type if node_type else Node.__set_type(style.get('properties', {}))
+        self.href = None
         self.has_links = False
         self.children = []
         self.attachements = []
@@ -19,7 +18,7 @@ class Node:
         to_print = f"Id: {self.id}\nTitle: {self.title}\nType: {self.type}"
         if len(self.description) != 0:
             to_print += f"\nDescription: {self.description}"
-        if self.href != "":
+        if self.href != None:
             to_print += f"\nHref: {self.href}"
         to_print += f"\n{len(self.children)} children: {[c.title for c in self.children]}"
         if len(self.attachements) > 0:
@@ -27,11 +26,9 @@ class Node:
         return to_print
 
     @staticmethod
-    def __set_type(style, has_href):
+    def __set_type(style):
         if style.get('fo:color') == '#ADADAD':
             return NodeType.SKIP
-        if has_href:
-            return NodeType.ATTACHEMENT
         if not style or not style.get("svg:fill"):
             return NodeType.ANSWER
         node_type = {
@@ -55,6 +52,17 @@ class Node:
                 formated += [description[i]]
                 n += 1
         return formated
+
+    def set_href(self, href):
+        if type(href) != str:
+            raise DTreeValidationError(f"Can't set node href with {type(href)} type", self)
+        if "xap:" == href[0:4]:
+            self.href = href[4:]
+            self.type = NodeType.ATTACHEMENT
+        else:
+            # TODO: Check link valid ? 
+            self.href = href
+            self.type = NodeType.EXTERNAL_LINK
 
     def add_child(self, child_node):
         if self.type in [NodeType.UNDEFINED, NodeType.ATTACHEMENT, NodeType.EXTERNAL_LINK]:
@@ -113,6 +121,6 @@ class Node:
             node_content['attachements_id'] = [doc.id for doc in self.attachements]
         if len(self.description) != 0:
             node_content['description'] = self.description
-        if self.href != "":
+        if self.href != None:
             node_content['href'] = self.href
         return node_content

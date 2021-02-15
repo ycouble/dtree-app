@@ -9,7 +9,7 @@ export const redirect_url = getConfig()[front] + "/redirect";
 
 export const getNode = async (body) => {
   return withConfiguration(async (config) => {
-    const endpoint = `${config[api]}/api/dtree`;
+    const endpoint = `${config[api]}/api/dtree/`;
     return get(endpoint, body);
   });
 };
@@ -44,7 +44,7 @@ export const logout = async (body) => {
 
 export const upload = async (body) => {
   return withConfiguration(async (config) => {
-    const endpoint = `${config[api]}/api/user/upload`;
+    const endpoint = `${config[api]}/api/user/dtree/`;
     return post(endpoint, body, true);
   });
 };

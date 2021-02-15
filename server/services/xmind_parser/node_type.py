@@ -27,3 +27,10 @@ def as_enum(d):
         return getattr(NodeType, d["type"])
     else:
         return d
+
+def to_str(d):
+    for key, value in d.items():
+        if type(value) == NodeType:
+            _, member = str(value).split(".")
+            d[key] = member
+    return d
