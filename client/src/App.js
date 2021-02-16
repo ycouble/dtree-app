@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Switch, Route } from "react-router-dom";
 
 import {
@@ -11,14 +11,20 @@ import {
 import PrivateRoute from "./services/private-route";
 import css from "./app.module.css";
 
+// TODO: Change update on header name
 function App() {
+  const [appName, setAppName] = useState("Decision Tree Webapp");
   return (
     <div className={css.app}>
       <header className={css.header}>
-        <h1>Decision Tree Webapp</h1>
+        <h1>{appName}</h1>
       </header>
       <Switch>
-        <Route exact path={"/"} component={() => <HomePage />} />
+        <Route
+          exact
+          path={"/"}
+          component={() => <HomePage setAppName={setAppName} />}
+        />
         <Route exact path={"/login"} component={() => <LoginPage />} />
         <Route
           exact

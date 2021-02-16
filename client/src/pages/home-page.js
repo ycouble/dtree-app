@@ -5,7 +5,7 @@ import css from "./css/home-page.module.css";
 
 import { getNode } from "../services/api";
 
-const HomePage = () => {
+const HomePage = ({ setAppName }) => {
   const [form, setForm] = useState();
   const [nodeId, setId] = useState();
 
@@ -14,40 +14,45 @@ const HomePage = () => {
       const body = {
         id: nodeId,
       };
+      console.log(body);
       const results = await getNode(body);
 
+      console.log(results);
       setForm(results);
     };
 
     getData();
   }, [nodeId]);
 
-  const length = form?.choices.length;
+  useEffect(() => {
+    if (form?.type === "APP_NAME") {
+      setId(form.children[0].id);
+      setAppName(form.title);
+    }
+  }, [form]);
 
   return (
     <div className={css.page}>
       {form && (
         <div>
           <h2>{form.title}</h2>
-          <p>{form.question}</p>
-          {length === 1 ? (
+          {form.description ? (
             <div>
-              <NodeDescription text={form.choices[0].text} />
-              <div className={css.buttonSet}>
-                <Button text={"Télécharger le document"} />
+              <NodeDescription text={form.description} />
+              {form.children.length != 0 && (
                 <Button
                   text={"Suivant"}
-                  onClick={() => setId(form.choices[0].next_node_id)}
+                  onClick={() => setId(form.children[0].id)}
                 />
-              </div>
+              )}
             </div>
           ) : (
-            form.choices.map(({ id, text, next_node_id }) => {
+            form.children.map(({ id, title, children_id }) => {
               return (
                 <Button
                   key={id}
-                  text={text}
-                  onClick={() => setId(next_node_id)}
+                  text={title}
+                  onClick={() => setId(children_id[0])}
                 />
               );
             })

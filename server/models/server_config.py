@@ -24,7 +24,7 @@ def get_config():
     finder = mongo.db.server_config.find({}).sort([("_id", -1)]).limit(1)
     # TODO error handling on length
     if finder.count() == 0:
-        raise PyMongoError(f"Not server config found.")
+        raise PyMongoError(f"No server config found.")
     return finder[0]
 
 config_schema = Schema({

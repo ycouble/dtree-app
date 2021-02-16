@@ -34,7 +34,8 @@ def save_xmind_file(xmind_file, user):
             raise FileUploadError(f"Missing document id")
         for node in dtree_nodes:
             m_nodes.insert_node(to_str(node), document_id)
-        m_config.update_config(document_id, user.get("preferred_username", ""))
+        # OTHER API:
+        # m_config.update_config(document_id, user.get("preferred_username", ""))
     except PyMongoError as err:
         # TODO Delete concerning node in mongo
         raise FileUploadError(f"MongoDB error {err}")
