@@ -130,6 +130,7 @@ class DTree:
         return {
             "display_name": self.filename,
             "folder_name": self.dir_name,
+            "root_node_id": self.get_root_node().id,
             "node_length": len(self.nodes),
             "nodes": nodes
         }

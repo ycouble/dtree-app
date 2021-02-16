@@ -4,6 +4,7 @@ from bson.objectid import ObjectId
 
 from models import schema
 from services.create_app import mongo
+from services.exceptions import PyMongoError
 
 
 # TODO: logger
@@ -13,18 +14,16 @@ def insert_node(node, document_id):
     # TODO: check document exist
     to_insert["document_id"] = document_id
     to_insert["node_info"] = node
-    # TODO: error handling
     if not schema.is_valid(node_schema, to_insert):
-        return None
+        raise PyMongoError(f"Schema not valid.")
     inserted = mongo.db.nodes.insert_one(to_insert).inserted_id
     return inserted
 
 def find_node(node_id, document_id):
-    finder = mongo.db.nodes.find({
-        "document_id": document_id, "node_info": {"id": node_id}})
+    finder = mongo.db.nodes.find({"document_id": document_id, "node_info.id": node_id})
     # TODO error handling on length
-    if len(finder) == 0:
-        return None
+    if finder.count() == 0:
+        raise PyMongoError(f"No node found for node: {node_id} and doc {document_id})")
     return finder[0].get("node_info", {})
 
 

@@ -6,6 +6,11 @@ class DTreeValidationError(Exception):
 
         self.node = node
 
-
 class DTreeProgrammingError(Exception):
+    pass
+
+class FileUploadError(Exception):
+    pass
+
+class PyMongoError(Exception):
     pass

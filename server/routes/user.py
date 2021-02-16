@@ -50,7 +50,7 @@ def authorized():
         session["user"] = result.get("id_token_claims")
         ms_auth.save_cache(session, cache)
     except ValueError as error:  # Usually caused by CSRF
-        pass  # Simply ignore them
+        pass
     if not request.args or not ms_auth.is_authorised_user(session.get("user")):
         username = ""
         if session.get("user"):
