@@ -14,6 +14,13 @@ export const getNode = async (body) => {
   });
 };
 
+export const getActualID = async () => {
+  return withConfiguration(async (config) => {
+    const endpoint = `${config[api]}/api/dtree/id`;
+    return get(endpoint, {});
+  });
+};
+
 export const login = async (body) => {
   return withConfiguration(async (config) => {
     const endpoint = `${config[api]}/api/user/login`;

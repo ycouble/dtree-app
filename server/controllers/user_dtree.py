@@ -1,4 +1,3 @@
-from models import nodes as m_nodes
 from models import server_config as m_config
 from models import xmind_documents as m_xdocs
 
@@ -9,7 +8,6 @@ from services.exceptions import (DTreeValidationError,
                                  FileUploadError,
                                  PyMongoError)
 from services.xmind_parser.dtree import DTree
-from services.xmind_parser.node_type import to_str
 
 
 def save_xmind_file(xmind_file, user):
@@ -26,16 +24,16 @@ def save_xmind_file(xmind_file, user):
         dtree_dump = dtree.get_content()
     except (DTreeValidationError, DTreeProgrammingError) as err:
         raise FileUploadError(f"Dtree error {err}")
-    dtree_nodes = dtree_dump.pop("nodes")
+    # dtree_nodes = dtree_dump.pop("nodes")
 
     try:
         document_id = m_xdocs.insert_document(dtree_dump)
         if not document_id:
             raise FileUploadError(f"Missing document id")
-        for node in dtree_nodes:
-            m_nodes.insert_node(to_str(node), document_id)
+        # for node in dtree_nodes:
+        #     m_nodes.insert_node(to_str(node), document_id)
         # OTHER API:
-        # m_config.update_config(document_id, user.get("preferred_username", ""))
+        m_config.update_config(document_id, user.get("preferred_username", ""))
     except PyMongoError as err:
         # TODO Delete concerning node in mongo
         raise FileUploadError(f"MongoDB error {err}")

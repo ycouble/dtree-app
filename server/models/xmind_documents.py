@@ -1,5 +1,5 @@
 import datetime
-from schema import Schema, And, Use
+from schema import Schema, And, Use, Optional
 
 from models import schema
 from services.create_app import mongo
@@ -27,5 +27,23 @@ document_schema = Schema({
     'folder_name': And(Use(str)),
     'root_node_id': And(Use(str), lambda s: len(s) == 36 or len(s) ==  26),
     'node_length': And(Use(int)),
+    'nodes': [{
+        'title': And(Use(str)),
+        Optional('description'): And(Use(str)),
+        'type': And(Use(str)),
+        'id': And(Use(str), lambda s: len(s) == 36 or len(s) ==  26),
+        'children_id': And(Use(list)),
+        Optional('attachements_id'): And(Use(list)),
+        Optional("href"): And(Use(str))
+    }],
     'datetime': And()
 })
+
+# Possible key depending nodes type:
+#   APP_NAME = ['title', 'description', 'type', 'id', 'children_id', 'attachement_id']
+#   STEP = ['title', 'description', 'type', 'id', 'children_id', 'attachement_id']
+#   QUESTION = ['title', 'type', 'id', 'children_id', 'attachement_id']
+#   ANSWER = ['title', 'description', 'type', 'id', 'children_id']
+#   ATTACHEMENT = ['title', 'type', 'id', 'children_id', 'href']
+#   EXTERNAL_LINK = ['title', 'type', 'id', 'children_id', 'href']
+#   SKIP = ['title', 'description', 'type', 'id', 'children_id', 'attachement_id']

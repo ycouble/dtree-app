@@ -1,61 +1,59 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { Redirect, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import { Button, NodeDescription } from "../components";
+import { NodeDescription } from "../components";
 import css from "./css/home-page.module.css";
 
-import { getNode } from "../services/api";
+import {
+  getNodeById,
+  getChildrenID,
+  getFormattedNode,
+} from "../services/dtree";
 
-const HomePage = ({ setAppName }) => {
-  const [form, setForm] = useState();
-  const [nodeId, setId] = useState();
+const HomePage = ({ dtree }) => {
+  const { id } = useParams();
+  if (getNodeById(dtree, id) === undefined)
+    return <Redirect to={`/dtree/${getChildrenID(dtree)}`} />;
 
-  useEffect(() => {
-    const getData = async () => {
-      const body = {
-        id: nodeId,
-      };
-      console.log(body);
-      const results = await getNode(body);
-
-      console.log(results);
-      setForm(results);
-    };
-
-    getData();
-  }, [nodeId]);
-
-  useEffect(() => {
-    if (form?.type === "APP_NAME") {
-      setId(form.children[0].id);
-      setAppName(form.title);
-    }
-  }, [form]);
-
+  const node = getFormattedNode(dtree, id);
   return (
     <div className={css.page}>
-      {form && (
+      {node && (
         <div>
-          <h2>{form.title}</h2>
-          {form.description ? (
+          {node.step_title && <h2>{node.step_title}</h2>}
+          <h2>{node.title}</h2>
+          {node.description ? (
             <div>
-              <NodeDescription text={form.description} />
-              {form.children.length != 0 && (
-                <Button
-                  text={"Suivant"}
-                  onClick={() => setId(form.children[0].id)}
-                />
-              )}
+              <NodeDescription text={node.description} />
+              <div>
+                {node.attachements?.map(({ id, title, href }) => {
+                  return <div key={id}>{title + " -> " + href}</div>;
+                })}
+                {node.children.length !== 0 && (
+                  <Link
+                    className={css.choice}
+                    to={`/dtree/${node.children_id[0]}`}
+                  >
+                    Suivant
+                  </Link>
+                )}
+              </div>
             </div>
           ) : (
-            form.children.map(({ id, title, children_id }) => {
-              return (
-                <Button
-                  key={id}
-                  text={title}
-                  onClick={() => setId(children_id[0])}
-                />
-              );
-            })
+            <div className={css.buttonSet}>
+              {node.children.map(({ id, title, children_id }) => {
+                return (
+                  <Link
+                    className={css.choice}
+                    key={id}
+                    to={`/dtree/${children_id}`}
+                  >
+                    {title}
+                  </Link>
+                );
+              })}
+            </div>
           )}
         </div>
       )}

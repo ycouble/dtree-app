@@ -1,5 +1,5 @@
 from services.exceptions import DTreeValidationError
-from services.xmind_parser.node_type import NodeType
+from services.xmind_parser.node_type import NodeType, to_str
 
 class Node:
     def __init__(self, node_id, title, description={}, style={}, node_type=None):
@@ -12,7 +12,7 @@ class Node:
         self.children = []
         self.attachements = []
         if self.type == NodeType.UNDEFINED:
-            raise DTreeValidationError(f"Undefined node type !", self)
+            raise DTreeValidationError(f"Unknown node color !", self)
 
     def __repr__(self):
         to_print = f"Id: {self.id}\nTitle: {self.title}\nType: {self.type}"
@@ -35,23 +35,25 @@ class Node:
             '#E32C2D': NodeType.APP_NAME,
             '#FDD834': NodeType.STEP,
             '#FF6F00': NodeType.STEP,
-            '#8EDDF9': NodeType.QUESTION
+            '#8EDDF9': NodeType.QUESTION,
+            '#8EDE99': NodeType.ANSWER
         }.get(style["svg:fill"], NodeType.UNDEFINED)
         return node_type
 
     @staticmethod
     def __format_description(description):
-        formated = []
-        n = 0
-        for i in range(len(description)):
-            if "attributes" in description[i]:
-                formated[n - 1]["attributes"] = description[i]["attributes"].get("list")
-                if "insert" in description[i]:
-                    formated[n - 1]["insert"] += description[i]["insert"]
-            else:
-                formated += [description[i]]
-                n += 1
-        return formated
+        # formated = []
+        # n = 0
+        # for i in range(len(description)):
+        #     if "attributes" in description[i]:
+        #         formated[n - 1]["attributes"] = description[i]["attributes"].get("list")
+        #         if "insert" in description[i]:
+        #             formated[n - 1]["insert"] += description[i]["insert"]
+        #     else:
+        #         formated += [description[i]]
+        #         n += 1
+        # return formated
+        return description
 
     def set_href(self, href):
         if type(href) != str:
@@ -95,14 +97,12 @@ class Node:
                 raise DTreeValidationError(f"{self.type} node can't have {children_type} children type", self)
 
         if self.type == NodeType.STEP:
-            if len(self.description) != 0 and children_length > 1:
-                raise DTreeValidationError(f"{self.type} node can't have multiple children and a description", self)
-            if len(self.description) == 0 and children_length <= 1:
-                raise DTreeValidationError(f"{self.type} node must either have 2 children or a description", self)
-            if children_type in [NodeType.QUESTION, NodeType.STEP, NodeType.SKIP] and children_length != 1:
-                raise DTreeValidationError(f"{self.type} node can't have multiple {children_type} children", self)
-            if children_type == NodeType.ANSWER and children_length < 2:
-                raise DTreeValidationError(f"{self.type} node must have multiple {children_type} children", self)
+            if children_length > 1:
+                raise DTreeValidationError(f"{self.type} node can't have multiple children", self)
+            if len(self.description) == 0 and children_type != NodeType.QUESTION and children_length != 1:
+                raise DTreeValidationError(f"{self.type} node must either have a description or a question child", self)
+            if children_type == NodeType.ANSWER:
+                raise DTreeValidationError(f"{self.type} node can't have a {children_type} type children", self)
  
         if self.type == NodeType.QUESTION:
             if children_length < 2:
@@ -123,4 +123,4 @@ class Node:
             node_content['description'] = self.description
         if self.href != None:
             node_content['href'] = self.href
-        return node_content
+        return to_str(node_content)

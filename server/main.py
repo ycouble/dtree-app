@@ -36,3 +36,17 @@ if __name__ == "__main__":
 # POST /api/user/dtree/<:id>/default -> Set default dtree
 # GET /api/user/dtree -> get list off existing app
 # DELETE /api/user/dtree/<:id> -> delete old version
+
+
+# from services.xmind_parser.dtree import DTree
+# from services.exceptions import DTreeValidationError
+
+# if __name__ == "__main__":
+#     try:
+#         dtree = DTree(filename="OAD Salmonelles_v5.xmind", dir_name="data/")
+#     except DTreeValidationError as err:
+#         print(err)
+#         exit(84)
+#     print(dtree)
+#     import pdb
+#     pdb.set_trace()

@@ -28,7 +28,7 @@ CORS_HEADERS = 'Content-Type'
 # File transfer
 MAX_CONTENT_LENGTH = 32 * 1024 * 1024
 UPLOAD_FOLDER = "data"
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'json', 'xml', 'xmind'}
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'json', 'xml', 'xlsx', 'docx', 'xmind'}
 
 # Database 
 MONGO_DBNAME = "dtree_salmonelles"

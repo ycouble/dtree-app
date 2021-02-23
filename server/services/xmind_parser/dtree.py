@@ -54,10 +54,16 @@ class DTree:
                 node.set_href(data["href"])
         except KeyError as err:
             raise DTreeProgrammingError(f"Can't initialize node ({err})", f"Id: {data.get('id')}")
+        
+        self.__add_children(node, data)
+        self.nodes.append(node)
+        return node
 
+    def __add_children(self, node, data):
         children = []
         if "children" in data:
             children = [self.__populate_node(c) for c in data["children"]["attached"]]
+        
             if "summary" in data["children"]:
                 summaries = [self.__populate_node(summary) for summary in data["children"]["summary"]]
                 # Set up summary only for children with no existing children
@@ -66,11 +72,13 @@ class DTree:
                 for child in valid_children:
                     for summary in summaries:
                         child.add_child(summary)
+            
+            if "detached" in data["children"]:
+                for detached in data["children"]["detached"]:
+                    self.__populate_node(detached)
+
         for child in children:
             node.add_child(child)
-
-        self.nodes.append(node)
-        return node
 
     def __complete_relationships(self, relationships):
         for relation in relationships:
@@ -91,6 +99,7 @@ class DTree:
                 node = Node(node_id, relation.get("title"), node_type=NodeType.ANSWER)
                 start_node.add_child(node)
                 node.add_child(end_node)
+                self.nodes.append(node)
             elif not has_title and start_node.type not in [NodeType.UNDEFINED, NodeType.ATTACHEMENT, NodeType.EXTERNAL_LINK]:
                 start_node.add_child(end_node)
             else:
@@ -135,13 +144,3 @@ class DTree:
             "nodes": nodes
         }
         
-
-if __name__ == "__main__":
-    try:
-        dtree = DTree()
-    except DTreeValidationError as err:
-        print(err)
-        exit(84)
-    print(dtree)
-    import pdb
-    pdb.set_trace()

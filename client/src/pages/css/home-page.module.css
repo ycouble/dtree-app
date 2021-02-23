@@ -9,3 +9,18 @@
   justify-content: space-around;
   align-items: center;
 }
+
+.choice {
+  max-width: 25vw;
+  background-color: var(--secondary-color);
+  cursor: pointer;
+
+  margin: 30px;
+  padding: 20px;
+  border-radius: 20px;
+
+  font-size: 1.3em;
+  font-weight: 600;
+  color: var(--light-color);
+  text-decoration: none;
+}
