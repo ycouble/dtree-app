@@ -8,15 +8,18 @@ export const getRootNode = (dtree) => {
 };
 
 export const getFormattedNode = (dtree, nodeId) => {
-  const node = getNodeById(dtree, nodeId);
+  const { children_id, attachements_id, ...node } = getNodeById(dtree, nodeId);
+
   if (node.type === "STEP" && node.description === undefined) {
     const step_title = node.title;
-    return { ...getFormattedNode(dtree, node.children_id[0]), step_title };
+    const { title, ...next_node } = getFormattedNode(dtree, children_id[0]);
+    return { title: step_title, question: title, ...next_node };
   }
-  const children = node.children_id.map((id) => {
+
+  const children = children_id.map((id) => {
     return getNodeById(dtree, id);
   });
-  const attachements = node.attachements_id?.map((id) => {
+  const attachements = attachements_id?.map((id) => {
     return getNodeById(dtree, id);
   });
   return { ...node, children, attachements };

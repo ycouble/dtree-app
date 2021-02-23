@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 
 import {
-  HomePage,
+  DtreePage,
   LoginPage,
   NoMatchPage,
   RedirectPage,
@@ -50,7 +50,7 @@ const App = () => {
         </Route>
         <Route
           path={"/dtree/:id"}
-          component={() => <HomePage dtree={dtree} />}
+          component={() => <DtreePage dtree={dtree} />}
         />
         <Route exact path={"/login"} component={() => <LoginPage />} />
         <Route
