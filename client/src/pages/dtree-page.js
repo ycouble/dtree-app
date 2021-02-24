@@ -23,7 +23,7 @@ const DtreePage = ({ dtree }) => {
   return (
     <div className={css.page}>
       <Breadcrumbs dtree={dtree} history={history} setHistory={setHistory} />
-      {lastAnswer && <h3>{lastAnswer}</h3>}
+      {lastAnswer && <div className={css.lastAnswer}>{lastAnswer}</div>}
       <h2>{node.title}</h2>
       {node.type === "STEP" ? (
         <StepVue {...node} setNextNode={setNextNode} />

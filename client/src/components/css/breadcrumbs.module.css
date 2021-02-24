@@ -2,11 +2,16 @@
   display: flex;
   flex-direction: row;
   margin: 10px 0px;
+  flex-wrap: wrap;
 }
 
 .nodeLink {
   display: flex;
   flex-direction: row;
+}
+
+.next {
+  user-select: none;
 }
 
 .link {

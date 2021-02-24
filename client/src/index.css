@@ -3,9 +3,12 @@
   --light-color: #dbedf3;
   --primary-color: #404b69;
   --secondary-color: #00818a;
+  --selectable-color: #40a1a7;
+  --selected-color: #005f8a;
+  --disabled-color: #94a0a1;
 
-  --dark-text-color: #283149;
-  --light-text-color: #dbedf3;
+  --dark-text-color: var(--dark-color);
+  --light-text-color: var(--light-color);
 }
 
 html {

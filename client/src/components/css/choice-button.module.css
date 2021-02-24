@@ -13,6 +13,18 @@
   text-decoration: none;
 }
 
+.choice:hover {
+  background-color: var(--selectable-color);
+}
+
+.selected {
+  background-color: var(--selected-color);
+}
+
+.disabled {
+  background-color: var(--disabled-color);
+}
+
 .disabledLink {
   pointer-events: none;
 }

@@ -11,7 +11,7 @@ const NodeLink = ({ title, isQuestion, onClick }) => {
         <span>{title}</span>
         {isQuestion && <span>{"... "}</span>}
       </div>
-      <span>{">"}</span>
+      <span className={css.next}>{">"}</span>
     </div>
   );
 };

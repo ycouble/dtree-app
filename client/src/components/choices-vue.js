@@ -23,7 +23,7 @@ const ChoicesVue = ({ question, children, setNextNode }) => {
             <ChoiceButton
               key={child.id}
               {...child}
-              disabled={!!selected}
+              selected={selected}
               setSelected={setSelected}
               setNextNode={setNextNode}
             />

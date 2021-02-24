@@ -1,4 +1,11 @@
 .page {
   display: flex;
   flex-direction: column;
+  width: 90vw;
+}
+
+.lastAnswer {
+  margin-top: 30px;
+  margin-bottom: 5px;
+  font-weight: 500;
 }

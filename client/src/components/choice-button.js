@@ -8,11 +8,16 @@ const ChoiceButton = ({
   title,
   children_id,
   description,
-  disabled,
+  selected,
   setSelected,
   setNextNode,
 }) => {
-  const choice = classnames(css.choice, { [css.disabledLink]: disabled });
+  const choice = classnames(
+    css.choice,
+    { [css.disabledLink]: !!selected },
+    { [css.selected]: id === selected },
+    { [css.disabled]: id !== selected && !!selected }
+  );
 
   return description ? (
     <div className={choice} onClick={() => setSelected(id)}>

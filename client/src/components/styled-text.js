@@ -16,11 +16,19 @@ const changeStyle = (obj) => {
 };
 
 const StyledText = ({ styledText }) => {
+  const offset = styledText.findIndex(({ list }) => {
+    return list === "ordered";
+  });
+
   return (
     <div className={css.section}>
-      {styledText.map(({ spans }, key) => {
+      {styledText.map(({ spans, list }, key) => {
         return (
           <div key={key} className={css.line}>
+            {list === "bullet" && <div className={css.bullet} />}
+            {list === "ordered" && (
+              <div className={css.ordered}>{key + offset + 1}.</div>
+            )}
             {spans.map(({ style, text }, index) => {
               const string = changeStyle(style?.properties);
               return (
