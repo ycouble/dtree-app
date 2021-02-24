@@ -8,15 +8,15 @@ import {
   RedirectPage,
   UploadPage,
 } from "./pages/index";
-import { getNode, getActualID } from "./services/api";
-import { getRootNode, getChildrenID } from "./services/dtree";
+import { getNode, getCurrentID } from "./services/api";
+import { getRootNode } from "./services/dtree";
 import PrivateRoute from "./services/private-route";
 import css from "./app.module.css";
 
 // TODO: Change update on header name
 const App = () => {
   const [dtree, setDTree] = useState(
-    JSON.parse(localStorage.getItem("dtree")) || {}
+    JSON.parse(localStorage.getItem("dtree")) || undefined
   );
   const [appName, setAppName] = useState("Decision Tree Webapp");
 
@@ -28,7 +28,7 @@ const App = () => {
 
   useEffect(() => {
     const getID = async (id) => {
-      const currentID = await getActualID();
+      const currentID = await getCurrentID();
       if (currentID !== id) fetchDTree();
     };
 
@@ -36,7 +36,7 @@ const App = () => {
     if (dtreeID) getID(dtreeID);
     else fetchDTree();
 
-    setAppName(getRootNode(dtree).title);
+    if (dtree) setAppName(getRootNode(dtree).title);
   }, [dtree]);
 
   return (
@@ -46,11 +46,11 @@ const App = () => {
       </header>
       <Switch>
         <Route exact path="/">
-          <Redirect to={`/dtree/${getChildrenID(dtree)}`} />
+          <Redirect to={`/dtree`} />
         </Route>
         <Route
-          path={"/dtree/:id"}
-          component={() => <DtreePage dtree={dtree} />}
+          path={"/dtree"}
+          component={() => (dtree ? <DtreePage dtree={dtree} /> : <div />)}
         />
         <Route exact path={"/login"} component={() => <LoginPage />} />
         <Route

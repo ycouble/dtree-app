@@ -1,10 +1,10 @@
 import React from "react";
 
+import Button from "./button";
 import StyledText from "./styled-text";
-import NextButton from "./next-button";
 import css from "./css/step-vue.module.css";
 
-const StepVue = ({ description, attachements, children }) => {
+const StepVue = ({ description, attachements, children, setNextNode }) => {
   return (
     <div>
       <div className={css.description}>
@@ -15,7 +15,7 @@ const StepVue = ({ description, attachements, children }) => {
           return <div key={id}>{title + " -> " + href}</div>;
         })}
         {children.length !== 0 && (
-          <NextButton to={`/dtree/${children[0].id}`} />
+          <Button onClick={() => setNextNode(children[0].id)} text={"Suite"} />
         )}
       </div>
     </div>

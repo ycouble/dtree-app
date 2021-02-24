@@ -14,7 +14,7 @@ export const getNode = async (body) => {
   });
 };
 
-export const getActualID = async () => {
+export const getCurrentID = async () => {
   return withConfiguration(async (config) => {
     const endpoint = `${config[api]}/api/dtree/id`;
     return get(endpoint, {});

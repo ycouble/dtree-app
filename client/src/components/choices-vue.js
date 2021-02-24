@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 
+import Button from "./button";
 import StyledText from "./styled-text";
 import ChoiceButton from "./choice-button";
-import NextButton from "./next-button";
 import css from "./css/choices-vue.module.css";
 
-const ChoicesVue = ({ question, children }) => {
+const ChoicesVue = ({ question, children, setNextNode }) => {
   const [selected, setSelected] = useState();
 
   const selectedChildren = children.find(({ id }) => id === selected);
@@ -18,13 +18,14 @@ const ChoicesVue = ({ question, children }) => {
     <div>
       {question && <h3>{question}</h3>}
       <div className={css.choices}>
-        {children.map((child, index) => {
+        {children.map((child) => {
           return (
             <ChoiceButton
-              key={index}
+              key={child.id}
               {...child}
               disabled={!!selected}
               setSelected={setSelected}
+              setNextNode={setNextNode}
             />
           );
         })}
@@ -32,7 +33,12 @@ const ChoicesVue = ({ question, children }) => {
       {selectedChildren && (
         <div>
           <StyledText styledText={selectedChildren.description} />
-          <NextButton to={`/dtree/${selectedChildren.children_id[0]}`} />
+          <Button
+            onClick={() =>
+              setNextNode(selectedChildren.children_id[0], selectedChildren.id)
+            }
+            text={"Suite"}
+          />
         </div>
       )}
     </div>

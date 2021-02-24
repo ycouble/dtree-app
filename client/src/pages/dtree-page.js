@@ -1,25 +1,35 @@
 import React from "react";
-import { Redirect, useParams } from "react-router-dom";
 
-import { ChoicesVue, StepVue } from "../components";
+import { Breadcrumbs, ChoicesVue, StepVue } from "../components";
+import useLocalStorage from "../hooks/useLocalStorage";
+import { getRootNode, getFormattedNode } from "../services/dtree";
+import { getLastAnswer } from "../services/history";
+
 import css from "./css/dtree-page.module.css";
 
-import {
-  getNodeById,
-  getChildrenID,
-  getFormattedNode,
-} from "../services/dtree";
-
 const DtreePage = ({ dtree }) => {
-  const { id } = useParams();
-  if (getNodeById(dtree, id) === undefined)
-    return <Redirect to={`/dtree/${getChildrenID(dtree)}`} />;
+  const startNode = getRootNode(dtree).children_id[0];
+  const [history, setHistory] = useLocalStorage("history", [startNode]);
 
-  const node = getFormattedNode(dtree, id);
+  const currentNodeId = history[history.length - 1];
+
+  const setNextNode = (nextNodeId, nodeId) => {
+    const historyToAdd = nodeId ? [nodeId, nextNodeId] : [nextNodeId];
+    setHistory([...history, ...historyToAdd]);
+  };
+
+  const node = getFormattedNode(dtree, currentNodeId);
+  const lastAnswer = getLastAnswer(dtree, history);
   return (
     <div className={css.page}>
+      <Breadcrumbs dtree={dtree} history={history} setHistory={setHistory} />
+      {lastAnswer && <h3>{lastAnswer}</h3>}
       <h2>{node.title}</h2>
-      {node.type === "STEP" ? <StepVue {...node} /> : <ChoicesVue {...node} />}
+      {node.type === "STEP" ? (
+        <StepVue {...node} setNextNode={setNextNode} />
+      ) : (
+        <ChoicesVue {...node} setNextNode={setNextNode} />
+      )}
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import React from "react";
 import classnames from "classnames";
-import { Link } from "react-router-dom";
 
 import css from "./css/choice-button.module.css";
 
@@ -11,6 +10,7 @@ const ChoiceButton = ({
   description,
   disabled,
   setSelected,
+  setNextNode,
 }) => {
   const choice = classnames(css.choice, { [css.disabledLink]: disabled });
 
@@ -19,9 +19,9 @@ const ChoiceButton = ({
       {title}
     </div>
   ) : (
-    <Link className={choice} to={`/dtree/${children_id}`} disabled={true}>
+    <div className={choice} onClick={() => setNextNode(children_id[0], id)}>
       {title}
-    </Link>
+    </div>
   );
 };
 
