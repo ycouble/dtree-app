@@ -43,10 +43,10 @@ if __name__ == "__main__":
 
 # if __name__ == "__main__":
 #     try:
-#         dtree = DTree(filename="OAD Salmonelles_v5.xmind", dir_name="data/")
+#         dtree = DTree(filename="OAD Salmonelles_v8.xmind", dir_name="data/")
 #     except DTreeValidationError as err:
 #         print(err)
 #         exit(84)
-#     print(dtree)
+#     # print(dtree)
 #     import pdb
 #     pdb.set_trace()

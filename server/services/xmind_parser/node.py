@@ -5,7 +5,7 @@ class Node:
     def __init__(self, node_id, title, description={}, style={}, node_type=None):
         self.id = node_id
         self.title = title
-        self.description = Node.__format_description(description.get('ops', {}).get('ops', []))
+        self.description = Node.__get_description(description)
         self.type = node_type if node_type else Node.__set_type(style.get('properties', {}))
         self.href = None
         self.has_links = False
@@ -41,19 +41,22 @@ class Node:
         return node_type
 
     @staticmethod
-    def __format_description(description):
-        # formated = []
-        # n = 0
-        # for i in range(len(description)):
-        #     if "attributes" in description[i]:
-        #         formated[n - 1]["attributes"] = description[i]["attributes"].get("list")
-        #         if "insert" in description[i]:
-        #             formated[n - 1]["insert"] += description[i]["insert"]
-        #     else:
-        #         formated += [description[i]]
-        #         n += 1
-        # return formated
-        return description
+    def __get_description(description):
+        html = description.get('html', {}).get('content', {}).get('paragraphs', [])
+        ops = description.get('ops', {}).get('ops', [])
+
+        to_insert = []
+        for i in range(len(ops)):
+            if "list" in ops[i].get('attributes', {}):
+                tmp = (ops[i - 1]['insert'], ops[i]['attributes']["list"])
+                to_insert.append(tmp)
+        # TODO: Warnings on char invisible
+        for line in html:
+            for span in line['spans']:
+                for x, y in to_insert:
+                    if x == span['text']:
+                        line['list'] = y
+        return html
 
     def set_href(self, href):
         if type(href) != str:

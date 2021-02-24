@@ -13,7 +13,6 @@
   border-radius: 20px;
 }
 
-.text {
-  font-size: 1em;
-  font-weight: 500;
+.line {
+  margin: 5px 0px;
 }

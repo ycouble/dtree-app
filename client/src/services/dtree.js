@@ -27,6 +27,6 @@ export const getFormattedNode = (dtree, nodeId) => {
 
 export const getChildrenID = (dtree, nodeId = dtree.root_node_id) => {
   const node = getNodeById(dtree, nodeId);
-  if (node.children_id.length == 1) return node.children_id[0];
+  if (node.children_id.length === 1) return node.children_id[0];
   // TODO: else error
 };
