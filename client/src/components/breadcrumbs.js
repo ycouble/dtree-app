@@ -24,8 +24,9 @@ const Breadcrumbs = ({ dtree, history, setHistory }) => {
 
   return (
     <div className={css.breadcrumbs}>
-      <NodeLink title={"Accueil"} onClick={returnToNode(history[0])} />
-      {history.slice(0, -1).map((id) => {
+      {/* <NodeLink title={"Accueil"} onClick={returnToNode(history[0])} /> */}
+      {history.map((id) => {
+        // history.slice(0, -1)
         const node = getNodeById(dtree, id);
         if (node?.type !== "STEP" && node?.type !== "QUESTION") return;
         const isStep = node.type === "STEP";
