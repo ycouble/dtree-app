@@ -12,3 +12,7 @@
   color: var(--light-color);
   text-decoration: none;
 }
+
+.disabledLink {
+  pointer-events: none;
+}

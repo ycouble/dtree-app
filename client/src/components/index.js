@@ -4,6 +4,7 @@ import ChoicesVue from "./choices-vue";
 import NextButton from "./next-button";
 import RedirectButton from "./redirect-button";
 import StepVue from "./step-vue";
+import StyledText from "./styled-text";
 
 export {
   Button,
@@ -12,4 +13,5 @@ export {
   NextButton,
   RedirectButton,
   StepVue,
+  StyledText,
 };
