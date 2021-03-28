@@ -9,7 +9,7 @@ const NodeLink = ({ title, isQuestion, onClick }) => {
     <div className={css.nodeLink}>
       <div className={css.link} onClick={onClick}>
         <span>{title}</span>
-        {isQuestion && <span>{"... "}</span>}
+        {isQuestion && <span>{"..."}</span>}
       </div>
       <span className={css.next}>{">"}</span>
     </div>
@@ -28,7 +28,7 @@ const Breadcrumbs = ({ dtree, history, setHistory }) => {
       {history.map((id) => {
         // history.slice(0, -1)
         const node = getNodeById(dtree, id);
-        if (node?.type !== "STEP" && node?.type !== "QUESTION") return;
+        if (node?.type !== "STEP" && node?.type !== "QUESTION") return <div />;
         const isStep = node.type === "STEP";
         const title = isStep
           ? capitalize(node.title).slice(0, 8)
